@@ -2,6 +2,8 @@ import 'package:easy_chat/view/auth%20screens/widgets/auth_button.dart';
 import 'package:easy_chat/view/auth%20screens/widgets/auth_textfield.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth_servicesa.dart';
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key, required this.onTap});
 
@@ -9,7 +11,20 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final void Function()? onTap;
 
-  void login() {}
+  void login(BuildContext context) async {
+    final authService = AuthService();
+
+    try {
+      await authService.signInWithEmailPassword(
+          _emailController.text, _passwordController.text);
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(e.toString()),
+              ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +66,11 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const AuthButton(
+            AuthButton(
               btnName: 'Login',
+              onTap: () {
+                login(context);
+              },
             ),
             const SizedBox(
               height: 25,
