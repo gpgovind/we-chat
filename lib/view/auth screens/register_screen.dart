@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_chat/view/auth%20screens/widgets/auth_button.dart';
 import 'package:easy_chat/view/auth%20screens/widgets/auth_textfield.dart';
 
-import '../../services/auth_servicesa.dart';
+import '../../services/auth/auth_servicesa.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key, this.onTap});
@@ -15,11 +15,11 @@ class RegisterScreen extends StatelessWidget {
   final void Function()? onTap;
 
   void register(BuildContext context) async {
-    final authService = AuthService();
+    AuthService _AuthServices = AuthService();
 
     if (_passwordController.text == _confirmPasswordController.text) {
       try {
-        await authService.createUserWithEmailPassword(
+        await _AuthServices.createUserWithEmailPassword(
             _emailController.text, _passwordController.text);
       } catch (e) {
         showDialog(

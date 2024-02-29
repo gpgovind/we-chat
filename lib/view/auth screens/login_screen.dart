@@ -2,7 +2,7 @@ import 'package:easy_chat/view/auth%20screens/widgets/auth_button.dart';
 import 'package:easy_chat/view/auth%20screens/widgets/auth_textfield.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/auth_servicesa.dart';
+import '../../services/auth/auth_servicesa.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key, required this.onTap});
@@ -12,10 +12,10 @@ class LoginScreen extends StatelessWidget {
   final void Function()? onTap;
 
   void login(BuildContext context) async {
-    final authService = AuthService();
+     AuthService _AuthServices = AuthService();
 
     try {
-      await authService.signInWithEmailPassword(
+      await _AuthServices.signInWithEmailPassword(
           _emailController.text, _passwordController.text);
     } catch (e) {
       showDialog(

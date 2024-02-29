@@ -1,5 +1,12 @@
-import 'package:easy_chat/services/auth_servicesa.dart';
+import 'dart:math';
+
+import 'package:easy_chat/services/auth/auth_servicesa.dart';
+import 'package:easy_chat/services/chat/chat_service.dart';
+import 'package:easy_chat/view/widgets/drawer.dart';
+import 'package:easy_chat/view/widgets/user_tile_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,19 +17,63 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void logOut() {
-    final auth = AuthService();
-    auth.logOut();
+    AuthService _authServices = AuthService();
+    _authServices.logOut();
   }
+
+  final ChatService _chatService = ChatService();
+  AuthService _authServices = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [
-          IconButton(onPressed: logOut, icon: const Icon(Icons.logout))
-        ],
       ),
+      drawer: MyDrawerWidget(
+        onTapLogout: () => logOut(),
+      ),
+      body: _buildUserList(),
     );
+  }
+
+  Widget _buildUserList() {
+    return StreamBuilder(
+      stream: _chatService.getUserStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(child: Text('Error while fetching data'));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: Text('Loading...'));
+        }
+        return ListView(
+            children: snapshot.data!
+                .map<Widget>(
+                    (userData) => _buildUserListItem(userData, context))
+                .toList());
+      },
+    );
+  }
+
+  Widget _buildUserListItem(
+      Map<String, dynamic> userData, BuildContext context) {
+    if (userData['email'] != _authServices.getCurrentUser()!.email) {
+      return UserTileWidget(
+        text: userData["email"],
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(
+                  receiverEmail: userData["email"],
+                  receiverId: userData['uid'],
+                ),
+              ));
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 }
