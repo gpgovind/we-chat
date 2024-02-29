@@ -1,4 +1,4 @@
-import 'dart:math';
+
 
 import 'package:easy_chat/services/auth/auth_servicesa.dart';
 import 'package:easy_chat/services/chat/chat_service.dart';
@@ -17,18 +17,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void logOut() {
-    AuthService _authServices = AuthService();
-    _authServices.logOut();
+    AuthService authServices = AuthService();
+    authServices.logOut();
   }
 
   final ChatService _chatService = ChatService();
-  AuthService _authServices = AuthService();
+  final AuthService _authServices = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
+        elevation: 0,
       ),
       drawer: MyDrawerWidget(
         onTapLogout: () => logOut(),
