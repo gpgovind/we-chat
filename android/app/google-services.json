@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "834760977199",
+    "project_id": "easy-chat-cf74b",
+    "storage_bucket": "easy-chat-cf74b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834760977199:android:9a3306d8ca19e6f5c00fda",
+        "android_client_info": {
+          "package_name": "com.example.easy_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDONVywtHj42_HaRKyxRlLxixRjCCWDt1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
